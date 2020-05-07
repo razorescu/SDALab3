@@ -13,6 +13,43 @@ typedef std::pair<TKey, TValue> TElem;
 #define NULL_TELEM pair<int,int>(-11111, -11111);
 class MultiMapIterator;
 
+
+// value DLLA ////////////////////////////////////////////
+struct DLLAVNode { // node for values DLLA
+	TValue value;
+	int next;
+	int previous;
+};
+
+struct DLLAValues { // values DLLA
+	DLLAVNode* nodes;
+	int cap;
+	int head;
+	int tail;
+	int firstEmpty;
+	int count;
+};
+// value DLLA ////////////////////////////////////////////
+
+// main DLLA ////////////////////////////////////////////
+struct DLLANode { //node for main DLLA
+	TKey key;
+	DLLAValues values;
+	int next;
+	int previous;
+};
+
+struct DLLA { // main DLLA
+	DLLANode* nodes;
+	int cap;
+	int head;
+	int tail;
+	int firstEmpty;
+	int count;
+};
+// main DLLA ////////////////////////////////////////////
+
+
 class MultiMap
 {
 	friend class MultiMapIterator;
@@ -21,6 +58,9 @@ private:
 	//TODO - Representation
 
 public:
+	DLLA dlla;
+	unsigned int length; //element count
+
 	//constructor
 	MultiMap();
 

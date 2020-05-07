@@ -12,11 +12,14 @@ private:
 	//TODO - Representation
 
 	MultiMapIterator(const MultiMap& c);
+	int current, currentNode;
 
 public:
 	TElem getCurrent()const;
 	bool valid() const;
 	void next();
+	void previous();
 	void first();
+	void last();
 };
 
