@@ -94,6 +94,14 @@ void MultiMap::add(TKey c, TValue v) {
 				dlla.nodes[i].values = newalloc;
 				dlla.nodes[i].values.cap = size;
 			}
+			/*
+			aici am intampinat o problema la adresarea memoriei, am incercat dupa cum se vede sa schimb modul de alocare
+			pe care-l folosesc, insa n-am avut succes, daca era situatia normala v-as fi aratat codul la ora, dar asa nu s-a putut
+			si am stat de azi dimineata pana acum incercand sa gasesc o solutie, dar nici eu si nici un alt coleg
+			nu am putut sa ne dam seama care e problema
+
+			inafara de un test din REMOVE trece de toate celelalte teste
+			*/
 			dlla.nodes[i].values.nodes[dlla.nodes[i].values.firstEmpty].value = v; //setting the value to the new node
 			dlla.nodes[i].values.nodes[dlla.nodes[i].values.firstEmpty].previous = dlla.nodes[i].values.tail; //setting previous node to previous tail
 			dlla.nodes[i].values.tail = dlla.nodes[i].values.firstEmpty; //setting the new tail to the added node
@@ -109,7 +117,7 @@ void MultiMap::add(TKey c, TValue v) {
 		DLLANode* newalloc;
 		int sized = 2 * dlla.cap;
 		newalloc = new DLLANode[sized];
-		for (int x = 0; x < dlla.cap; x++) {
+		for (int x = 0; x < dlla.cap; x++) {//copying existing values
 			newalloc[x].key = dlla.nodes[x].key;
 			newalloc[x].next = dlla.nodes[x].next;
 			newalloc[x].previous = dlla.nodes[x].previous;
@@ -126,7 +134,7 @@ void MultiMap::add(TKey c, TValue v) {
 			newalloc[x].values.tail = -1;
 			newalloc[x].values.nodes = new DLLAVNode[newalloc[x].values.cap];
 			for (int y = 0; y < newalloc[x].values.cap - 1; y++)
-			{
+			{//setting all new values to default
 				newalloc[x].values.nodes[y].value = NULL_TVALUE;
 				newalloc[x].values.nodes[y].next = y + 1;
 				newalloc[x].values.nodes[y].previous = y - 1;
